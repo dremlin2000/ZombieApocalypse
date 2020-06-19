@@ -17,6 +17,7 @@
     "@types/chai": "^4.2.11",
     "@types/mocha": "^7.0.2",
     "@types/node": "^14.0.13",
+    "@types/yargs": "^15.0.5",
     "chai": "^4.2.0",
     "mocha": "^8.0.1",
     "source-map-support": "^0.5.19",
@@ -24,5 +25,7 @@
     "tslint": "^6.1.2",
     "typescript": "^3.9.5"
   },
-  "dependencies": {}
+  "dependencies": {
+    "yargs": "^15.3.1"
+  }
 }

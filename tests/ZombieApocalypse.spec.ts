@@ -14,7 +14,7 @@ describe("ZombieApocalypse", () => {
         { x: 0, y: 1 },
         { x: 1, y: 1 },
       ],
-      [Direction.Up]
+      [Direction.U]
     );
 
     //Act
@@ -40,7 +40,7 @@ describe("ZombieApocalypse", () => {
         { x: 0, y: 1 },
         { x: 1, y: 1 },
       ],
-      [Direction.Up, Direction.Left]
+      [Direction.U, Direction.L]
     );
 
     //Act
@@ -67,7 +67,7 @@ describe("ZombieApocalypse", () => {
         { x: 2, y: 4 },
         { x: 3, y: 1 },
       ],
-      [Direction.Down, Direction.Down, Direction.Right]
+      [Direction.D, Direction.D, Direction.R]
     );
 
     //Act
@@ -94,12 +94,12 @@ describe("ZombieApocalypse", () => {
         { x: 3, y: 1 },
       ],
       [
-        Direction.Down,
-        Direction.Left,
-        Direction.Up,
-        Direction.Up,
-        Direction.Right,
-        Direction.Right,
+        Direction.D,
+        Direction.L,
+        Direction.U,
+        Direction.U,
+        Direction.R,
+        Direction.R,
       ]
     );
 

@@ -1,9 +1,9 @@
 export enum Direction {
-  None,
-  Up,
-  Down,
-  Left,
-  Right,
+  N,
+  U,
+  D,
+  L,
+  R,
 }
 
 export interface Coordinate {
@@ -14,7 +14,7 @@ export interface Coordinate {
 export interface Creature {
   isZombie: boolean;
   isMoved: boolean;
-  beingMoved: boolean;
+  isBeingMoved: boolean;
 }
 
 export class ZombieApocalypse {
@@ -30,7 +30,7 @@ export class ZombieApocalypse {
     pathToMove: Direction[]
   ) {
     this._boardDimension = boardDimension;
-    this._path = [Direction.None, ...pathToMove];
+    this._path = [Direction.N, ...pathToMove];
 
     this.initArray();
     this.transformCoordinates(zombieLocations, true);
@@ -51,7 +51,7 @@ export class ZombieApocalypse {
       this._board[coordinate.x][coordinate.y].push({
         isZombie,
         isMoved: false,
-        beingMoved: false,
+        isBeingMoved: false,
       });
     });
   }
@@ -95,30 +95,30 @@ export class ZombieApocalypse {
       this._board[x][y].some(
         (creature) => creature.isZombie && creature.isMoved
       ) ||
-      this._board[x][y].some((creature) => creature.beingMoved)
+      this._board[x][y].some((creature) => creature.isBeingMoved)
     ) {
       return;
     }
 
-    this._board[x][y].forEach((creature) => (creature.beingMoved = true));
+    this._board[x][y].forEach((creature) => (creature.isBeingMoved = true));
 
     let newX = x;
     let newY = y;
 
     this._path.forEach((direction) => {
-      const shouldMove = direction != Direction.None;
+      const shouldMove = direction != Direction.N;
 
       switch (direction) {
-        case Direction.Right:
+        case Direction.R:
           newX = newX + 1 > this._boardDimension - 1 ? 0 : newX + 1;
           break;
-        case Direction.Left:
+        case Direction.L:
           newX = newX - 1 < 0 ? this._boardDimension - 1 : newX - 1;
           break;
-        case Direction.Up:
+        case Direction.U:
           newY = newY - 1 < 0 ? this._boardDimension - 1 : newY - 1;
           break;
-        case Direction.Down:
+        case Direction.D:
           newY = newY + 1 > this._boardDimension - 1 ? 0 : newY + 1;
           break;
       }
@@ -135,7 +135,7 @@ export class ZombieApocalypse {
       }
     });
 
-    this._board[x][y].forEach((creature) => (creature.beingMoved = false));
+    this._board[x][y].forEach((creature) => (creature.isBeingMoved = false));
 
     //Once the zombie achieves the final destination, move them to the new cell
     if (newX != x || newY != y) {

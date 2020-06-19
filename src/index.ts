@@ -1,58 +1,57 @@
+import * as yargs from "yargs";
 import {
   ZombieApocalypse,
   Coordinate,
   Direction,
 } from "../src/ZombieApocalypse";
+
 require("source-map-support").install();
 
-// const zombieApocalypse = new ZombieApocalypse(
-//   4,
-//   [{ x: 2, y: 1 }],
-//   [
-//     { x: 0, y: 1 },
-//     { x: 1, y: 2 },
-//     { x: 3, y: 1 },
-//   ],
-//   [
-//     Direction.Down,
-//     Direction.Left,
-//     Direction.Up,
-//     Direction.Up,
-//     Direction.Right,
-//     Direction.Right,
-//   ]
-// );
+const argv = yargs
+  .usage(
+    "Usage: $0 -s [dimension] -d [directions to move] -z [zombies coordinates] -v [victims coordinates]"
+  )
+  .option("s", {
+    number: true,
+  })
+  .option("d", {
+    string: true,
+  })
+  .option("z", {
+    array: true,
+  })
+  .option("v", {
+    array: true,
+  })
+  .demandOption(["s", "d", "z", "v"]).argv;
 
-const zombieApocalypse = new ZombieApocalypse(
-  5,
-  [{ x: 0, y: 0 }],
-  [
-    { x: 1, y: 2 },
-    { x: 2, y: 4 },
-    { x: 3, y: 1 },
-  ],
-  [Direction.Down, Direction.Down, Direction.Right]
+const delimiter = ",";
+
+const parseArrayCoordinates = (arg: string[]): Coordinate[] => {
+  return arg.map((strCoordinate) => {
+    const coordinate = strCoordinate.split(delimiter);
+    return { x: Number(coordinate[0]), y: Number(coordinate[1]) };
+  });
+};
+
+const zombiesCoordinates = parseArrayCoordinates(
+  argv.z.map((str) => str.toString())
 );
 
-// const coordinates: Coordinate[] = [];
+const victimsCoordinates = parseArrayCoordinates(
+  argv.v.map((str) => str.toString())
+);
 
-// for (let i = 0; i < 2; i++) {
-//   for (let j = 0; j < 2; j++) {
-//     coordinates.push({ x: i, y: j });
-//   }
-// }
+const directions: Direction[] = argv.d
+  ?.split("")
+  .map((directionStr) => (<any>Direction)[directionStr]);
 
-// const zombieApocalypse = new ZombieApocalypse(
-//   2,
-//   [{ x: 0, y: 0 }],
-//   [
-//     { x: 0, y: 0 },
-//     { x: 1, y: 0 },
-//     { x: 0, y: 1 },
-//     { x: 1, y: 1 },
-//   ],
-//   [Direction.Up]
-// );
+const zombieApocalypse = new ZombieApocalypse(
+  argv.s,
+  zombiesCoordinates,
+  victimsCoordinates,
+  directions
+);
 
 zombieApocalypse.startInfection();
 
